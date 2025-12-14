@@ -1,0 +1,173 @@
+/* static/style.css */
+
+/* 引入 Google Fonts 質感字體 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --user-msg-bg: #764ba2;
+    --bot-msg-bg: #f1f2f6;
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--primary-gradient);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 毛玻璃主容器 */
+.chat-container {
+    width: 90%;
+    max-width: 800px;
+    height: 85vh;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px); /* 關鍵：模糊背景 */
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 24px;
+    border: var(--glass-border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 頂部標題 */
+.header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.5);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.header p {
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* 聊天區域 */
+#chat-box {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scroll-behavior: smooth;
+}
+
+/* 訊息氣泡通用樣式 */
+.message {
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 18px;
+    font-size: 1rem;
+    line-height: 1.6;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    
+    /* 進場動畫 */
+    animation: slideIn 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@keyframes slideIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bot-msg {
+    background-color: var(--bot-msg-bg);
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.user-msg {
+    background: var(--primary-gradient);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+/* 輸入區域 */
+.input-area {
+    padding: 20px;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+input {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid transparent;
+    background: #f8f9fa;
+    border-radius: 50px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+input:focus {
+    background: white;
+    border-color: #764ba2;
+    box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.1);
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 打字機效果指示器 */
+.typing-indicator {
+    font-size: 0.8rem;
+    color: #888;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    display: none;
+    font-style: italic;
+}
