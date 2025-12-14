@@ -80,3 +80,26 @@ function showTyping(show) {
     typingIndicator.style.display = show ? 'block' : 'none';
     if(show) scrollToBottom();
 }
+// ... (在 appendMessage(data.response, 'bot-msg'); 之後加入)
+
+// 🔊 讓暖心說話
+speak(data.response);
+
+// ...
+
+// 在 script.js 最下方加入這個函式
+function speak(text) {
+    // 檢查瀏覽器是否支援
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // 設定語言 (繁體中文)
+        utterance.lang = 'zh-TW'; 
+        
+        // 設定音調與速度 (調成比較像溫柔女聲的參數)
+        utterance.pitch = 1.1; // 稍微高一點點
+        utterance.rate = 0.9;  // 講慢一點點，比較溫柔
+        
+        window.speechSynthesis.speak(utterance);
+    }
+}
