@@ -1,0 +1,15 @@
+{
+    "name": "暖心 SoulMate",
+    "short_name": "暖心",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fcf9f2",
+    "theme_color": "#fcf9f2",
+    "icons": [
+        {
+            "src": "/static/images/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
