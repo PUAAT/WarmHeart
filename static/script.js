@@ -13,23 +13,20 @@ userInput.addEventListener('keypress', (e) => {
     }
 });
 
-// 發送訊息主邏輯
+// static/script.js
+
+// ... (前面的變數宣告不變) ...
+
 async function sendMessage() {
     const text = userInput.value.trim();
     if (!text) return;
 
-    // 1. 鎖定介面
     toggleInputState(false);
-    
-    // 2. 顯示使用者訊息
     appendMessage(text, 'user-msg');
     userInput.value = '';
-
-    // 3. 顯示「暖心正在輸入...」
     showTyping(true);
 
     try {
-        // 4. 發送請求給後端
         const response = await fetch('/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -38,9 +35,13 @@ async function sendMessage() {
 
         const data = await response.json();
 
-        // 5. 顯示 AI 回應
         showTyping(false);
         appendMessage(data.response, 'bot-msg');
+
+        // 🔊 關鍵修改：如果有收到音檔，就播放出來
+        if (data.audio) {
+            playAudio(data.audio);
+        }
 
     } catch (error) {
         console.error("Error:", error);
@@ -50,6 +51,22 @@ async function sendMessage() {
         toggleInputState(true);
         userInput.focus();
     }
+}
+
+// ... (appendMessage 等其他函式不變) ...
+
+// 🔊 新增播放音效的函式
+function playAudio(base64String) {
+    // 建立一個音訊物件
+    const audio = new Audio("data:audio/mp3;base64," + base64String);
+    
+    // 設定音量
+    audio.volume = 1.0;
+    
+    // 播放
+    audio.play().catch(e => {
+        console.error("播放失敗 (可能是瀏覽器阻擋自動播放):", e);
+    });
 }
 
 // 輔助函式：新增訊息到畫面
@@ -80,12 +97,7 @@ function showTyping(show) {
     typingIndicator.style.display = show ? 'block' : 'none';
     if(show) scrollToBottom();
 }
-// ... (在 appendMessage(data.response, 'bot-msg'); 之後加入)
 
-// 🔊 讓暖心說話
-speak(data.response);
-
-// ...
 
 // 在 script.js 最下方加入這個函式
 function speak(text) {
